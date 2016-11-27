@@ -1,1 +1,13 @@
-<h1>Ivan nubas</h1>
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+	<form action="/registration" method="POST">
+		<input type="text" name="login" id="login" placeholder="Login" class="form-control">
+		<input type="text" name="password" id="password" placeholder="Password" class="form-control">
+		<input type="text" name="mail" id="mail" placeholder="Mail" class="form-control">
+		<button type="submit">Test</button>
+	</form>
+</div>
+
+{% endblock %}

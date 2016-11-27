@@ -16,7 +16,8 @@
   							 [metosin/ring-http-response "0.8.0"]
   							 [compojure "1.5.1"]
   							 [selmer "1.0.9"]
-  							 [buddy "1.1.0"]]
+  							 [buddy "1.1.0"]
+  							 [conman "0.6.2"]]
   :dev-depndencies [[lein-ring "0.4.0"]]
   :ring {:handler fplib.core/engine
   			 :auto-reload? true
