@@ -8,8 +8,6 @@
   					[compojure "1.5.1"]]
   :dependencies [[org.clojure/clojure "1.8.0"]
   							 [org.clojure/java.jdbc "0.4.2"]
-  							 [org.webjars/bootstrap "4.0.0-alpha.3"]
-  							 [org.webjars/font-awesome "4.6.3"]
   							 [mysql/mysql-connector-java "5.1.38"]
   							 [ring/ring "1.5.0"]
   							 [ring/ring-json "0.4.0"]

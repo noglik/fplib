@@ -3,6 +3,18 @@
 				hiccup.element)
 	(:require [fplib.views.renderer :as renderer]))
 
-(defn render-home-page
+(defn home
 	[]
 	(renderer/render "home.html"))
+	
+(defn book
+	[]
+	(renderer/render "addBook.html"))
+	
+(defn registration
+	[]
+	(renderer/render "reg.html"))
+
+(defn authorization
+	[]
+	(renderer/render "auth.html"))

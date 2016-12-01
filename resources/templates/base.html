@@ -1,19 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LOL</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>FreeLib</title>
+	<meta charset="text/html; utf-8" http-equiv="Content-Type">
 
-    {% style "/bootstrap/css/bootstrap.min.css" %}
-    {% style "/css/styles.css" %}
+	{% style "/bootstrap/css/bootstrap.min.css" %}
+	{% style "/css/styles.css" %}
 </head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="/" class="navbar-brand">FreeLib</a>
+			</div>
+			{% if user.authenticated %}
+				<div>
+          <form action="/signout" id="logoutForm" method="post" class="navbar-right">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></li>
+            </ul>
+          </form>
+        </div>
+      {% else %}
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/registration">Register</a></li>
+          <li><a href="/auth">Sign in</a></li>
+        </ul>
+			{% endif %}
+			{% if user.is_admin%}
+				<div>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/admin">Admin</a></li>
+					</ul>
+				</div>
+			{% endif %}
+			<div>
+				<ul class="nav navbar-nav navbar-right">
+          <li><a href="/books">Books</a></li>
+        </ul>
+			</div>
+			<form class="navbar-form navbar-left" action="/search" method="POST">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-inverse">Submit</button>
+      </form>
+		</div>
+	</nav>
+	<div class="container">
+		{% block content %}
+		{% endblock %}
+	</div>
 
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-</div>
+	
+	{% script "/bootstrap/js/bootstrap.min.js" %}
+	{% script "/js/jquery.min.js" %}
 
-{% script "/js/jquery.min.js" %}
-{% script "/bootstrap/js/bootstrap.min.js" %}
+	<nav class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="container">
+        <footer align="center">
+            <p>BSUIR 2016</p>
+        </footer>
+    </div>
+  </nav>
 </body>
+</html>
