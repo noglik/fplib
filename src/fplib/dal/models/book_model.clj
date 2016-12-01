@@ -1,9 +1,10 @@
-(ns fplib.dal.models.book-model) 
-  
-(defrecord book-record 
+(ns fplib.dal.models.book-model)
+
+(defrecord book-record
   [id
    name
-   book_year
-   short_description
-   link_download
-   genre]) 
+   author
+   year
+   description
+   link
+   genre])
