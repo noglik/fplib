@@ -3,5 +3,4 @@
 (defrecord comment-record
   [id
    comment
-   author_id
-   book_id])
+   user_login])

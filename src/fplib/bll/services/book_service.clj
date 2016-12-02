@@ -22,6 +22,6 @@
     response)
 
     (get-book-by-id [this id]
-       (def response (.get-book-by-id book-dao))
+       (def response (.get-book-by-id book-dao id))
     response)
 )

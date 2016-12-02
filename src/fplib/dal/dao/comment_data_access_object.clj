@@ -1,18 +1,32 @@
 (ns fplib.dal.dao.comment-data-access-object
-	(:require 
+	(:require
 		[fplib.dal.protocols.comment-db-protocol :as comment-protocol]
-		[fplib.dal.protocols.common-db-protocol :as common-protocol]
-		[fplib.dal.models.comment-model :as comment-record]
+		[fplib.dal.models.comment-model :as comment-model]
+    [fplib.dal.db :as db]
 		[clojure.java.jdbc :as jdbc]))
 
 (deftype comment-data-access-object [db-map]
 
-	common-protocol/common-db-protocol
+	comment-protocol/comment-db-protocol
 
-	(add-item
+	(add-new-comment
 		[this options]
 		(jdbc/insert! db-map
 									:comments
 									{:comment			(:comment options)
 									 :author_id 		(:author_id options)
-									 :book_id 			(:book_id options)})))
+									 :book_id 			(:book_id options)}))
+
+  (get-comments-by-idbook [this id]
+         (into [] (jdbc/query db/db-map
+                              ["SELECT c.id, u.login, c.comment
+                                FROM mydb.comments as c
+                                JOIN mydb.users as u ON c.User_id = u.id
+                                WHERE Book_id = ?" id]
+                              :row-fn #(comment-model/->comment-record
+                                         (:id %1)
+                                         (:comment %1)
+                                         (:user_login %1)))))
+
+
+)
