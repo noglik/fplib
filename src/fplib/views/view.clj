@@ -4,10 +4,11 @@
 	(:require [fplib.views.renderer :as renderer]))
 
 (defn home
-	[]
-	(renderer/render "home.html"))
+	[books]
+	(println books)
+	(renderer/render "home.html" {:books books}))
 	
-(defn book
+(defn add-book
 	[]
 	(renderer/render "addBook.html"))
 	

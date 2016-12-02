@@ -12,6 +12,7 @@
 
     (get-all-items[this]
        (def response (.get-all-items book-dao))
+       (println "\n----------------BOOKS-------------\n" response)
     response)
 
     book-protocol/book-service-protocol
