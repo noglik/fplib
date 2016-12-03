@@ -15,9 +15,9 @@
                  {
                    :name (:name options)
                    :author (:author options)
-                   :year_book (:year options)
+                   :year (:year options)
                    :description (:description options)
-                   :link_download (:link options)
+                   :link (:link options)
                    :genre (:genre options)}))
 
   (get-all-items [this]
@@ -35,9 +35,9 @@
                             WHERE row_count() <= 10"])))
 
   (get-book-by-id [this id]
-      (first (jdbc/query db/db-map ["SELECT b.id, b.name, b.author,
-                                     b.book_year, b.description,
-                                     b.link_download, b.genre
+      (first (jdbc/query db-map ["SELECT b.id, b.name, b.author,
+                                     b.year, b.description,
+                                     b.link, b.genre
                                      FROM book as b
                                      WHERE id = ?" id]
                                      :row-fn #(book-model/->book-record

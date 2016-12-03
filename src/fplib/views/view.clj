@@ -19,3 +19,8 @@
 (defn authorization
 	[]
 	(renderer/render "auth.html"))
+
+(defn book
+	[book]
+	(println book)
+	(renderer/render "book.html" {:book book}))
