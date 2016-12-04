@@ -24,4 +24,8 @@
     (get-book-by-id [this id]
        (def response (.get-book-by-id book-dao id))
     response)
+
+    (get-books-by-request [this option]
+       (def response (.get-books-by-request book-dao option))
+    response)
 )
