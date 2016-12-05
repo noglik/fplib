@@ -9,8 +9,8 @@
 	(renderer/render "home.html" {:session session :books books}))
 	
 (defn add-book
-	[]
-	(renderer/render "addBook.html"))
+	[session]
+	(renderer/render "addBook.html" {:session session}))
 	
 (defn registration
 	[]
@@ -21,5 +21,5 @@
 	(renderer/render "auth.html"))
 
 (defn book
-	[book]
-	(renderer/render "book.html" {:book book}))
+	[session book]
+	(renderer/render "book.html" {:session session :book book}))

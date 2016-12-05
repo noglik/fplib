@@ -33,14 +33,13 @@
 
 
 ;------------------------SESSION ACTIONS-----------------------
-(defn add-user-to-session [request response user]
+(defn add-user-to-session [response request user]
 	(assoc response
 		:session (-> (:session request)
 								 (assoc :login (:login user))
 								 (assoc :is_admin (:is_admin user))
 								 (assoc :mail (:mail user))
-								 (assoc :id (:id user))))
-	(println "ADD USER TO SESSION"))
+								 (assoc :id (:id user)))))
 
 (defn remove-user-from-session [response]
 	(assoc response
@@ -62,10 +61,11 @@
 ;authorization
 (defn auth-user
 	[request]
+	(println request)
 	(let [current-user (.sign-in user-service
-															 (get-in request [:params :login])
-															 (get-in request [:params :password]))
-				request-login (get-in request [:params :login])]
+							  	(get-in request [:params :login])
+							  	(get-in request [:params :password]))
+		  request-login (get-in request [:params :login])]
 
 			 (if (= current-user nil)
 			 	(println "User find error")
@@ -74,10 +74,17 @@
 			 		(-> (response/redirect "/")
 			 				(add-user-to-session request current-user))))))
 
+(defn signout
+	[session]
+	(println "-----------------------------")
+	(-> (response/redirect "/")
+		(remove-user-from-session)))
+
 ;;book-actions
 (defn add-book
   [session request]
-  (.add-item book-service (:params request)))
+  (.add-item book-service (:params request))
+  (response/redirect "/"))
 
 (defn get-home-page
 	[session]
@@ -89,12 +96,13 @@
 	[session id]
 	(do
 	(response/redirect "/book/:id")
-	(view/book (.get-book-by-id book-service id))))
+	(view/book session (.get-book-by-id book-service id))))
 
 ;;comment-actions
 (defn add-comment
 	[session request]
-	(.add-item comment-service (:params request)))
+	(.add-item comment-service (:params request))
+	(response/redirect "/"))
 
 ;Определяем роуты приложения
 (defroutes app-routes
@@ -102,10 +110,11 @@
 					 (GET "/registration" [] (view/registration))
 					 (POST "/registration" request (add-user request))
 					 (POST "/book/add" request (add-book (:session request) request))
-					 (GET "/book/add" [] (view/add-book))
-					 (GET "/book/:id" [:as request id] (get-book (:session request)id))
+					 (GET "/book/add" [:as request] (view/add-book (:session request)))
+					 (GET "/book/:id" [:as request id] (get-book (:session request) id))
 					 (GET "/auth" [] (view/authorization))
 					 (POST "/auth" request (auth-user request))
+					 (POST "/signout" request (signout (:session request)))
 					 (route/resources "/")
 		    	 (route/not-found "Page not found")) 
 
