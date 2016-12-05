@@ -10,4 +10,15 @@
 
 	(add-item
 		[this options]
-		(.add-item user-model options)))
+		(.add-item user-model options))
+
+	user-protocol/user-service-protocol
+
+	(sign-in
+		[this login password]
+		(.sign-in user-model login password))
+
+	(get-user-by-login [this login]
+		(def user (.get-user-by-login user-model login))
+		(println user)
+		user))

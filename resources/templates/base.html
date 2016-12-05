@@ -13,11 +13,11 @@
 			<div class="navbar-header">
 				<a href="/" class="navbar-brand">FreeLib</a>
 			</div>
-			{% if user.authenticated %}
+			{% if session.id %}
 				<div>
           <form action="/signout" id="logoutForm" method="post" class="navbar-right">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></li>
+              <li><input type="submit" name="signout" value="Sign Out" class="btn btn-link navbar-right"></li>
             </ul>
           </form>
         </div>
@@ -52,7 +52,6 @@
 		{% endblock %}
 	</div>
 
-	
 	{% script "/bootstrap/js/bootstrap.min.js" %}
 	{% script "/js/jquery.min.js" %}
 

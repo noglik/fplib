@@ -1,10 +1,12 @@
 (ns fplib.core
-	(:use compojure.core)
+	(:use compojure.core
+				ring.middleware.cookies)
 	(:require 
 					[compojure.route :as route]
 					[compojure.handler :as handler]
 					[ring.middleware.json :as middleware]
 					[ring.util.response :as response]
+					[ring.middleware.session :as ss]
 
 					[fplib.views.view :as view]
 					[fplib.dal.db :as db]
@@ -30,65 +32,94 @@
 (def comment-service (comment-service-d/->comment-service cmn-dao))
 
 
-;;------------------------SESSION ACTIONS-----------------------
-; (defn add-user-to-session [request response user]
-; 	(assoc response
-; 		:session (-> (:session request)
-; 								 (assoc :login (:login user))
-; 								 (assoc :is_admin (:is_admin user))
-; 								 (assoc :mail (:mail user))
-; 								 (assoc :id (:id user)))))
+;------------------------SESSION ACTIONS-----------------------
+(defn add-user-to-session [response request user]
+	(assoc response
+		:session (-> (:session request)
+								 (assoc :login (:login user))
+								 (assoc :is_admin (:is_admin user))
+								 (assoc :mail (:mail user))
+								 (assoc :id (:id user)))))
 
-; (defn remove-user-from-session [response]
-; 	(assoc response
-; 		:cookies {"id" {:value nil}}))
+(defn remove-user-from-session [response]
+	(assoc response
+		:cookies {"id" {:value nil}}))
 
-; (defn get-user-from-session [request]
-; 	(def user-info {:id (get-in request [:session :userid])
-; 									:mail (get-in request [:session :mail])
-; 									:is_admin (get-in request [:session :is_admin])})
-; 	user-info)
+(defn get-user-from-session [request]
+	(def user-info {:id (get-in request [:session :userid])
+									:mail (get-in request [:session :mail])
+									:is_admin (get-in request [:session :is_admin])})
+	user-info)
 
 ;;user actions
+;registration
 (defn add-user
 	[request]
-	(.add-item user-service (:params request)))
+	(.add-item user-service (:params request))
+	(response/redirect "/"))
+
+;authorization
+(defn auth-user
+	[request]
+	(println request)
+	(let [current-user (.sign-in user-service
+							  	(get-in request [:params :login])
+							  	(get-in request [:params :password]))
+		  request-login (get-in request [:params :login])]
+
+			 (if (= current-user nil)
+			 	(println "User find error")
+			 	(do 
+			 		(println "User session opened")
+			 		(-> (response/redirect "/")
+			 				(add-user-to-session request current-user))))))
+
+(defn signout
+	[session]
+	(println "-----------------------------")
+	(-> (response/redirect "/")
+		(remove-user-from-session)))
 
 ;;book-actions
 (defn add-book
-  [request]
-  (.add-item book-service (:params request)))
+  [session request]
+  (.add-item book-service (:params request))
+  (response/redirect "/"))
 
 (defn get-home-page
-	[]
+	[session]
 	(do
-	(response/redirect "/")
-	(view/home (.get-all-items book-service))))
+	;(response/redirect "/")
+	(view/home session (.get-all-items book-service))))
 
 (defn get-book
 	[session id]
 	(do
-	(println id)
 	(response/redirect "/book/:id")
-	(view/book (.get-book-by-id book-service id))))
+	(view/book session (.get-book-by-id book-service id))))
 
 ;;comment-actions
 (defn add-comment
-	[request]
-	(.add-item comment-service (:params request)))
+	[session request]
+	(.add-item comment-service (:params request))
+	(response/redirect "/"))
 
 ;Определяем роуты приложения
 (defroutes app-routes
-					 (GET "/" [] (get-home-page))
+					 (GET "/" [:as request] (get-home-page (:session request)))
 					 (GET "/registration" [] (view/registration))
 					 (POST "/registration" request (add-user request))
-					 (POST "/book/add" request (add-book request))
-					 (GET "/book/add" [] (view/add-book))
-					 (GET "/book/:id" [:as request id] (get-book (:session request)id))
+					 (POST "/book/add" request (add-book (:session request) request))
+					 (GET "/book/add" [:as request] (view/add-book (:session request)))
+					 (GET "/book/:id" [:as request id] (get-book (:session request) id))
 					 (GET "/auth" [] (view/authorization))
+					 (POST "/auth" request (auth-user request))
+					 (POST "/signout" request (signout (:session request)))
 					 (route/resources "/")
-		    	   	 (route/not-found "Page not found")) 
+		    	 (route/not-found "Page not found")) 
 
 (def engine
   (-> (handler/site app-routes) 
-  	  (middleware/wrap-json-body {:keywords? true})))
+  	  (middleware/wrap-json-body {:keywords? true})
+  	  (ss/wrap-session)
+  	  (wrap-cookies)))

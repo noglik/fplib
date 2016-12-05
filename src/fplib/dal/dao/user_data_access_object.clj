@@ -17,4 +17,26 @@
 									 :password	(:password options)
 									 :salt      123
 									 :mail			(:mail options)
-									 :is_admin  false})))
+									 :is_admin  false}))
+
+	user-protocol/user-db-protocol
+
+	(sign-in 
+		[this login password]
+		(first (jdbc/query db-map
+											["SELECT *
+												FROM users
+												WHERE login=? AND password=?" login password])))
+
+	(get-user-by-login
+		[this login]
+		(first (jdbc/query db-map
+											["SELECT id, login, password, mail
+												FROM users
+												WHERE login=?" login]
+												:row-fn #(user-record/->user-record
+																	(:id %1)
+																	(:login %1)
+																	(:password %1)
+																	(:mail %1)
+																	(:is_admin %1))))))
