@@ -4,9 +4,9 @@
 	(:require [fplib.views.renderer :as renderer]))
 
 (defn home
-	[books]
-	(println books)
-	(renderer/render "home.html" {:books books}))
+	[session books]
+	(println session)
+	(renderer/render "home.html" {:session session :books books}))
 	
 (defn add-book
 	[]
@@ -22,5 +22,4 @@
 
 (defn book
 	[book]
-	(println book)
 	(renderer/render "book.html" {:book book}))

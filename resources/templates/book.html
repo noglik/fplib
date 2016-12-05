@@ -2,7 +2,7 @@
 {% block content %}
 
 	<div class="container">
-		<div class="col-lg-10 col-lg-offset-2">
+		<div class="col-lg-8 col-lg-offset-1">
 			<div class="row">
 				<h1>{{book.name}}</h1>
 			</div>
@@ -22,6 +22,29 @@
 				<a href="{{book.link}}">Link to download</p>
 			</div>
 		</div>
+
+		{% if comments %}
+			{% for comment in comments %}
+				<div class="row">
+					<div class="col-sm-1">
+					<div class="thumbnail">
+					<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+					</div><!-- /thumbnail -->
+					</div><!-- /col-sm-1 -->
+
+					<div class="col-sm-5">
+					<div class="panel panel-default">
+					<div class="panel-heading">
+					<strong>{{user.name}}</strong>
+					</div>
+					<div class="panel-body">
+					Panel content
+					</div><!-- /panel-body -->
+					</div><!-- /panel panel-default -->
+					</div><!-- /col-sm-5 -->
+				</div><!-- /row -->
+			{% endfor%}
+		{% endif %}
 	</div>
 
 {% endblock %}
