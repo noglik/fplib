@@ -1,0 +1,12 @@
+(ns fplib.validation.validation-logic
+(:require
+    [clojure.string :refer :all]))
+
+(defn is-correct-email? [email]
+   (def value (java.util.regex.Pattern/compile "([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}"))
+   (def res (.matcher value email))
+(.matches res))
+
+(defn is-int-in-interval? [number max min]
+  (let [int-number (new Integer number)]
+    (and (<= int-number max ) (>= int-number min))))
