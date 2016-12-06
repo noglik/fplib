@@ -7,8 +7,7 @@
     common-protocol/common-service-protocol
 
     (add-item [this options]
-       (.add-item book-dao options)
-    )
+          (.add-item book-dao options))
 
     (get-all-items[this]
        (def response (.get-all-items book-dao))

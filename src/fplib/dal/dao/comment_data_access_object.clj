@@ -20,8 +20,8 @@
   (get-comments-by-idbook [this id]
          (into [] (jdbc/query db/db-map
                               ["SELECT c.id, u.login, c.comment
-                                FROM mydb.comments as c
-                                JOIN mydb.users as u ON c.User_id = u.id
+                                FROM comments as c
+                                JOIN users as u ON c.User_id = u.id
                                 WHERE Book_id = ?" id]
                               :row-fn #(comment-model/->comment-record
                                          (:id %1)

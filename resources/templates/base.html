@@ -17,7 +17,7 @@
 				<div>
           <form action="/signout" id="logoutForm" method="post" class="navbar-right">
             <ul class="nav navbar-nav navbar-right">
-              <li><input type="submit" name="signout" value="Sign Out" class="btn btn-link navbar-right"></li>
+              <li><button class="btn btn-link" name="signout" type="submit">Sign Out</button></li>
             </ul>
           </form>
         </div>
@@ -41,7 +41,7 @@
 			</div>
 			<form class="navbar-form navbar-left" action="/search" method="POST">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" name="searchstring" id="searchstring" placeholder="Search">
         </div>
         <button type="submit" class="btn btn-inverse">Submit</button>
       </form>

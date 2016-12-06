@@ -23,3 +23,7 @@
 (defn book
 	[session book]
 	(renderer/render "book.html" {:session session :book book}))
+
+(defn search
+	[session books]
+	(renderer/render "search.html" {:session session :books books}))

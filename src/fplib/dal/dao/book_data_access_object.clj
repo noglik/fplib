@@ -51,12 +51,12 @@
 
   (get-books-by-request [this option]
                          (into [] (jdbc/query db-map
-                          ["SELECT b.id, b.name, b.author,
-                                     b.year, b.description,
-                                     b.link, b.genre
-                           FROM mydb.book
+                          ["SELECT id, name, author,
+                                     year, description,
+                                     link, genre
+                           FROM book
                            WHERE match(name, description, genre, author)
-                           AGAINST('?')" (:req option)]
+                           AGAINST(?)" (:searchstring (:params option))]
                            :row-fn #(book-model/->book-record
                                                (:id %1)
                                                (:name %1)

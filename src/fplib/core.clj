@@ -104,6 +104,12 @@
 	(.add-item comment-service (:params request))
 	(response/redirect "/"))
 
+(defn search-book
+	[session search]
+	(do	
+		(println search)
+		(view/search session (.get-books-by-request book-service search))))
+
 ;Определяем роуты приложения
 (defroutes app-routes
 					 (GET "/" [:as request] (get-home-page (:session request)))
@@ -115,6 +121,7 @@
 					 (GET "/auth" [] (view/authorization))
 					 (POST "/auth" request (auth-user request))
 					 (POST "/signout" request (signout (:session request)))
+					 (POST "/search" [:as request] (search-book (:session request) request))
 					 (route/resources "/")
 		    	 (route/not-found "Page not found")) 
 
