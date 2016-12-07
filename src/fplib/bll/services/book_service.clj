@@ -10,21 +10,21 @@
           (.add-item book-dao options))
 
     (get-all-items[this]
-       (def response (.get-all-items book-dao))
+       (let [response (.get-all-items book-dao)]
        ;(println "\n----------------BOOKS-------------\n" response)
-    response)
+        response))
 
     book-protocol/book-service-protocol
 
     (get-new-books[this]
-       (def response (.get-new-books book-dao))
-    response)
+       (let [response (.get-new-books book-dao)]
+       response))
 
     (get-book-by-id [this id]
-       (def response (.get-book-by-id book-dao id))
-    response)
+       (let [response (.get-book-by-id book-dao id)]
+       response))
 
     (get-books-by-request [this option]
-       (def response (.get-books-by-request book-dao option))
-    response)
+       (let [response (.get-books-by-request book-dao option)]
+       response))
 )

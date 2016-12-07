@@ -1,7 +1,7 @@
 (ns fplib.core
 	(:use compojure.core
 				ring.middleware.cookies)
-	(:require 
+	(:require
 					[compojure.route :as route]
 					[compojure.handler :as handler]
 					[ring.middleware.json :as middleware]
@@ -24,11 +24,11 @@
 (def user-service (user-service-d/->user-service usr-dao))
 
 ;books
-(def bk-dao (book-dao/->book-data-access-object db/db-map))					
+(def bk-dao (book-dao/->book-data-access-object db/db-map))
 (def book-service (book-service-d/->book-service bk-dao))
 
 ;comments
-(def cmn-dao (comment-dao/->comment-data-access-object db/db-map))					
+(def cmn-dao (comment-dao/->comment-data-access-object db/db-map))
 (def comment-service (comment-service-d/->comment-service cmn-dao))
 
 
@@ -46,10 +46,10 @@
 		:cookies {"id" {:value nil}}))
 
 (defn get-user-from-session [request]
-	(def user-info {:id (get-in request [:session :userid])
+	(let [user-info {:id (get-in request [:session :userid])
 									:mail (get-in request [:session :mail])
-									:is_admin (get-in request [:session :is_admin])})
-	user-info)
+									:is_admin (get-in request [:session :is_admin])}]
+	user-info))
 
 ;;user actions
 ;registration
@@ -69,7 +69,7 @@
 
 			 (if (= current-user nil)
 			 	(println "User find error")
-			 	(do 
+			 	(do
 			 		(println "User session opened")
 			 		(-> (response/redirect "/")
 			 				(add-user-to-session request current-user))))))
@@ -89,26 +89,29 @@
 (defn get-home-page
 	[session]
 	(do
-	;(response/redirect "/")
 	(view/home session (.get-all-items book-service))))
 
 (defn get-book
 	[session id]
 	(do
 	(response/redirect "/book/:id")
-	(view/book session (.get-book-by-id book-service id))))
-
-;;comment-actions
-(defn add-comment
-	[session request]
-	(.add-item comment-service (:params request))
-	(response/redirect "/"))
+	(view/book session (.get-book-by-id book-service id) (.get-comments-by-idbook comment-service id))))
 
 (defn search-book
 	[session search]
-	(do	
-		(println search)
+	(do
 		(view/search session (.get-books-by-request book-service search))))
+
+;;comment-actions
+(defn add-comment
+	[session request id]
+	(do
+		(let [com {:comment (:comment (:params request))
+							:author_id (:id session)
+							:book_id id}]
+		(println com)
+		(.add-new-comment comment-service com))
+		(get-book session id)))
 
 ;Определяем роуты приложения
 (defroutes app-routes
@@ -122,11 +125,12 @@
 					 (POST "/auth" request (auth-user request))
 					 (POST "/signout" request (signout (:session request)))
 					 (POST "/search" [:as request] (search-book (:session request) request))
+					 (POST "/comment/add/:id" [:as request id] (add-comment (:session request) request id))
 					 (route/resources "/")
-		    	 (route/not-found "Page not found")) 
+		    	 (route/not-found "Page not found"))
 
 (def engine
-  (-> (handler/site app-routes) 
+  (-> (handler/site app-routes)
   	  (middleware/wrap-json-body {:keywords? true})
   	  (ss/wrap-session)
   	  (wrap-cookies)))

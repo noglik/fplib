@@ -7,11 +7,11 @@
 	[session books]
 	(println session)
 	(renderer/render "home.html" {:session session :books books}))
-	
+
 (defn add-book
 	[session]
 	(renderer/render "addBook.html" {:session session}))
-	
+
 (defn registration
 	[]
 	(renderer/render "reg.html"))
@@ -21,8 +21,8 @@
 	(renderer/render "auth.html"))
 
 (defn book
-	[session book]
-	(renderer/render "book.html" {:session session :book book}))
+	[session book comments]
+	(renderer/render "book.html" {:session session :book book :comments comments}))
 
 (defn search
 	[session books]

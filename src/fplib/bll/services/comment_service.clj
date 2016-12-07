@@ -12,7 +12,7 @@
 		(.add-new-comment comment-model options))
 
   (get-comments-by-idbook [this id]
-  (def response (.get-comments-by-idbook comment-model id))
+  (let [response (.get-comments-by-idbook comment-model id)]
        (println "\n----------------COMMENTS-------------\n" response)
-    response)
+    		response))
 )
