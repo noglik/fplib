@@ -6,6 +6,7 @@
 
 	{% style "/bootstrap/css/bootstrap.min.css" %}
 	{% style "/css/styles.css" %}
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -18,6 +19,7 @@
           <form action="/signout" id="logoutForm" method="post" class="navbar-right">
             <ul class="nav navbar-nav navbar-right">
               <li><button class="btn-link" name="signout" type="submit">Sign Out</button></li>
+							<!-- <li><a onclick="test.signout({{session.id}})">Sign Out</a></li> -->
             </ul>
           </form>
         </div>
@@ -36,12 +38,12 @@
 			{% endif %}
 			<div>
 				<ul class="nav navbar-nav navbar-right">
-          <li><a href="/book">Books</a></li>
+          <li><a href="/book/add">Books</a></li>
         </ul>
 			</div>
 			<form class="navbar-form navbar-left" action="/search" method="POST">
         <div class="form-group">
-          <input type="text" class="form-control" name="searchstring" id="searchstring" placeholder="Search">
+          <input type="text" class="form-control" name="searchstring" id="searchstring" placeholder="Search" required="" minlength="4">
         </div>
         <button type="submit" class="btn btn-inverse">Submit</button>
       </form>
@@ -54,6 +56,7 @@
 
 	{% script "/bootstrap/js/bootstrap.min.js" %}
 	{% script "/js/jquery.min.js" %}
+	{% script "/js/scripts.js" %}
 
 </body>
 </html>

@@ -12,7 +12,7 @@
 	            			<div class="col-md-12">
                 				<div class="form-group">
 				                  <label for="name">Title</label>
-				                  <input id="name" type="text" name="name" class="form-control" placeholder="Title">
+				                  <input id="name" type="text" name="name" class="form-control" placeholder="Title" required="" minlength="3">
                 				</div>
 	            			</div>
 		        		</div>
@@ -20,7 +20,7 @@
 	            			<div class="col-md-12">
                 				<div class="form-group">
 				                  <label for="author">Author</label>
-				                  <input id="author" type="text" name="author" class="form-control" placeholder="Author">
+				                  <input id="author" type="text" name="author" class="form-control" placeholder="Author" required="" minlength="3">
                 				</div>
 	            			</div>
 		        		</div>
@@ -28,7 +28,7 @@
 		        			<div class="col-md-12">
 				                <div class="form-group">
 				                  <label for="year">Published year(Заменить потом на datepicker)</label>
-				                  <input id="year" type="text" name="year" class="form-control" placeholder="Year">
+				                  <input id="year" type="text" name="year" class="form-control" placeholder="Year" required="" pattern="[0-9]">
 				                </div>
 	            			</div>
 		        		</div>
@@ -36,7 +36,7 @@
 				        	<div class="col-md-12">
                 				<div class="form-group">
 				                  <label for="description">Description</label>
-				                  <textarea id="description" rows="4" name="description" class="form-control" placeholder="Description"></textarea>
+				                  <textarea id="description" rows="4" name="description" class="form-control" placeholder="Description" required=""></textarea>
                 				</div>
 	            			</div>
 		        		</div>
@@ -44,7 +44,7 @@
 	            			<div class="col-md-12">
                 				<div class="form-group">
 				                  <label for="genre">Genre</label>
-				                  <input id="genre" type="text" name="genre" class="form-control" placeholder="Genre">
+				                  <input id="genre" type="text" name="genre" class="form-control" placeholder="Genre" required="">
                 				</div>
 	            			</div>
 		        		</div>
@@ -52,7 +52,7 @@
 	            			<div class="col-md-12">
                 				<div class="form-group">
 				                  <label for="link">Link to download</label>
-				                  <input id="link" type="text" name="link" class="form-control" placeholder="Link">
+				                  <input id="link" type="url" name="link" class="form-control" placeholder="Link" required="">
                 				</div>
 	            			</div>
 		        		</div>

@@ -11,10 +11,10 @@
 
 	(add-item
 		[this options]
-		(if (is-correct-email? (:mail options))
+		(if (and (is-correct-email? (:mail options)) (is-same-pass? (:password options) (:password1 options)))
 	      (do
 			    (.add-item user-model options))
-	      (println "Incorrect email")))
+	      (println options)))
 
 	user-protocol/user-service-protocol
 

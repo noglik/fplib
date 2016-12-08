@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Search</h1>
-{% for book in books %}
-
 	<div class="row">
+{% for book in books %}
 	  <div class="col-sm-6 col-md-4">
 	    <div class="thumbnail">
 	      <div class="caption">
@@ -13,8 +12,7 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
 
 {% endfor %}
-
+</div>
 {% endblock %}
