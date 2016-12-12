@@ -10,7 +10,7 @@
   out)
 
 (defn logger-pattern [info message]
-  (let [ date (Date.) returnMessage (str info " (" date "): " message)]
+  (let [ date (Date.) returnMessage (str info " (" date "): " message "\n")]
     (send logger logMessage returnMessage)))
 
 

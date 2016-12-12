@@ -4,7 +4,8 @@
 		[fplib.bll.protocols.common-service-protocol :as common-protocol]
 		[fplib.dal.dao.user-data-access-object :as user-model]
     [fplib.validation.validation-logic :refer :all]
-    [fplib.bll.services.log-service :as log]))
+    [fplib.bll.services.log-service :as log]
+    [fplib.bll.statistics :as statistics]))
 
 (deftype user-service [user-model]
 
@@ -15,7 +16,8 @@
 		(if (and (is-correct-email? (:mail options)) (is-same-pass? (:password options) (:password1 options)))
 	      (do
 			    (.add-item user-model options)
-          (log/logger-pattern (:login options) (str "User has logged in system")))
+          (log/logger-pattern (:login options) (str "User has logged in system"))
+          (statistics/registration-of-user))
 	      (println options)))
 
 	user-protocol/user-service-protocol
