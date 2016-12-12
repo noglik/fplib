@@ -1,0 +1,14 @@
+test (Mon Dec 12 20:51:04 MSK 2016): User SIGN IN in system
+test (Mon Dec 12 20:52:27 MSK 2016): User SIGN IN in system
+test (Mon Dec 12 21:02:02 MSK 2016): User SIGN IN in system
+
+Admin (Mon Dec 12 21:04:37 MSK 2016): Add new book
+
+Add new comment (Mon Dec 12 21:04:48 MSK 2016): test
+
+Add new comment (Mon Dec 12 21:06:05 MSK 2016): test
+
+Request for the book (war and) (Mon Dec 12 21:06:56 MSK 2016): Output of books found
+
+Request for the book (peace) (Mon Dec 12 21:07:13 MSK 2016): Output of books found
+

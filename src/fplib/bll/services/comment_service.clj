@@ -1,7 +1,8 @@
 (ns fplib.bll.services.comment-service
 	(:require
 		[fplib.bll.protocols.comment-service-protocol :as comment-protocol]
-		[fplib.dal.dao.comment-data-access-object :as comment-model]))
+		[fplib.dal.dao.comment-data-access-object :as comment-model]
+		[fplib.bll.services.log-service :as log]))
 
 (deftype comment-service [comment-model]
 
@@ -9,6 +10,7 @@
 
 	(add-new-comment
 		[this options]
+		(log/logger-pattern (str "Add new comment") (:comment options))
 		(.add-new-comment comment-model options))
 
   (get-comments-by-idbook [this id]
