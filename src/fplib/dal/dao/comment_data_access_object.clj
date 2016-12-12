@@ -21,7 +21,7 @@
          (into [] (jdbc/query db-map
                               ["SELECT c.id, u.login, c.comment
                                 FROM comments as c
-                                JOIN users as u ON c.author_id = u.id
+                                JOIN users as u ON c.id = u.id
                                 WHERE book_id = ?" id]
                               :row-fn #(comment-model/->comment-record
                                          (:id %1)

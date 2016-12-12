@@ -1,13 +1,15 @@
 (ns fplib.bll.services.book-service
   (:require [fplib.bll.protocols.common-service-protocol :as common-protocol]
-            [fplib.bll.protocols.book-service-protocol :as book-protocol]))
+            [fplib.bll.protocols.book-service-protocol :as book-protocol]
+            [fplib.bll.services.log-service :as log]))
 
 (deftype book-service [book-dao]
 
     common-protocol/common-service-protocol
 
     (add-item [this options]
-          (.add-item book-dao options))
+          (.add-item book-dao options)
+          (log/logger-pattern (str "Admin") (str "Add new book")))
 
     (get-all-items[this]
        (let [response (.get-all-items book-dao)]
@@ -26,5 +28,6 @@
 
     (get-books-by-request [this option]
        (let [response (.get-books-by-request book-dao option)]
+       (log/logger-pattern (str "Request for the book (" (:searchstring (:params option)) ")") (str "Output of books found"))
        response))
 )
