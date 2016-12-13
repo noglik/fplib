@@ -1,18 +1,1 @@
-Request for the book (var) (Mon Dec 12 15:16:11 MSK 2016): Output of books found
-
-aaa (Mon Dec 12 15:16:34 MSK 2016): User has logged in system
-
-bbb (Mon Dec 12 15:16:47 MSK 2016): User has logged in system
-
-ccc (Mon Dec 12 15:17:03 MSK 2016): User has logged in system
-
-ddd (Mon Dec 12 15:17:26 MSK 2016): User has logged in system
-
-ggg (Mon Dec 12 15:17:42 MSK 2016): User has logged in system
-
-Count of registration (Mon Dec 12 15:17:42 MSK 2016):  = 5
-
-Request for the book (bumaga) (Mon Dec 12 15:17:50 MSK 2016): Output of books found
-
-Request for the book (AuthorSurname) (Mon Dec 12 15:18:06 MSK 2016): Output of books found
 
