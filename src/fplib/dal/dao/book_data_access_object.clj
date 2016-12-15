@@ -1,4 +1,8 @@
 (ns fplib.dal.dao.book-data-access-object
+  (:use [fplib.dsl.execs]
+        [fplib.dsl.struct-func]
+        [fplib.dsl.renders])
+
   (:require [fplib.dal.protocols.common-db-protocol :as common-protocol]
             [fplib.dal.protocols.book-db-protocol :as book-protocol]
             [fplib.dal.models.book-model :as book-model]
@@ -34,13 +38,32 @@
                             FROM `book`
                             WHERE row_count() <= 10"])))
 
+ ; (get-book-by-id [this id]
+ ;     (first (jdbc/query db-map ["SELECT b.id, b.name, b.author,
+ ;                                    b.year, b.description,
+ ;                                    b.link, b.genre
+ ;                                    FROM book as b
+ ;                                    WHERE id = ?" id]
+ ;                                    :row-fn #(book-model/->book-record
+ ;                                             (:id %1)
+ ;                                              (:name %1)
+ ;                                              (:author %1)
+ ;                                              (:year %1)
+ ;                                              (:description %1)
+ ;                                              (:link %1)
+ ;                                              (:genre %1)))))
+
   (get-book-by-id [this id]
-      (first (jdbc/query db-map ["SELECT b.id, b.name, b.author,
-                                     b.year, b.description,
-                                     b.link, b.genre
-                                     FROM book as b
-                                     WHERE id = ?" id]
-                                     :row-fn #(book-model/->book-record
+      (first (fetch (select (fields {:id :id
+                                     :name :name
+                                     :author :author
+                                     :year :year
+                                     :description :description
+                                     :link :link
+                                     :genre :genre})
+                            (from :book)
+                            (where (== :id id)))
+                        #(book-model/->book-record
                                                (:id %1)
                                                (:name %1)
                                                (:author %1)
@@ -49,6 +72,7 @@
                                                (:link %1)
                                                (:genre %1)))))
 
+
   (get-books-by-request [this option]
                          (into [] (jdbc/query db-map
                           ["SELECT id, name, author,
@@ -56,7 +80,7 @@
                                      link, genre
                            FROM book
                            WHERE match(name, description, genre, author)
-                           AGAINST(?)" (:searchstring (:params option))]
+                           AGAINST (? IN boolean mode)" (str (:searchstring (:params option)) '*')]
                            :row-fn #(book-model/->book-record
                                                (:id %1)
                                                (:name %1)
