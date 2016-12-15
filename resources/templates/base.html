@@ -30,17 +30,13 @@
         </ul>
 			{% endif %}
 			{% if user.is_admin%}
-				<div>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="/admin">Admin</a></li>
-					</ul>
-				</div>
-			{% endif %}
 			<div>
 				<ul class="nav navbar-nav navbar-right">
           <li><a href="/book/add">Books</a></li>
         </ul>
 			</div>
+			{% endif %}
+
 			<form class="navbar-form navbar-left" action="/search" method="POST">
         <div class="form-group">
           <input type="text" class="form-control" name="searchstring" id="searchstring" placeholder="Search" required="" minlength="4">

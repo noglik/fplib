@@ -8,8 +8,8 @@
     common-protocol/common-service-protocol
 
     (add-item [this options]
-          (.add-item book-dao options)
-          (log/logger-pattern (str "Admin") (str "Add new book")))
+          (log/logger-pattern (str "Admin") (str "Add new book"))
+          (.add-item book-dao options))
 
     (get-all-items[this]
        (let [response (.get-all-items book-dao)]
@@ -27,6 +27,7 @@
        response))
 
     (get-books-by-request [this option]
+       (log/logger-pattern (str "Request for the book (" (:searchstring (:params option)) ")") (str "Output of books found"))
        (let [response (.get-books-by-request book-dao option)]
        (log/logger-pattern (str "Request for the book (" (:searchstring (:params option)) ")") (str "Output of books found"))
        response))
