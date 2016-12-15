@@ -16,7 +16,8 @@
   							 [selmer "1.0.9"]
   							 [buddy "1.1.0"]
   							 [conman "0.6.2"]
-                 [hiccup "1.0.5"]]
+                 [hiccup "1.0.5"]
+                 [buddy/buddy-hashers "1.0.0"]]
   :dev-depndencies [[lein-ring "0.4.0"]]
   :ring {:handler fplib.core/engine
   			 :auto-reload? true

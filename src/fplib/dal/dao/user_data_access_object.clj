@@ -1,5 +1,5 @@
 (ns fplib.dal.dao.user-data-access-object
-	(:require 
+	(:require
 		[fplib.dal.protocols.user-db-protocol :as user-protocol]
 		[fplib.dal.protocols.common-db-protocol :as common-protocol]
 		[fplib.dal.models.user-model :as user-record]
@@ -11,17 +11,18 @@
 
 	(add-item
 		[this options]
+		(println "add item" options)
 		(jdbc/insert! db-map
 									:users
 									{:login			(:login options)
 									 :password	(:password options)
-									 :salt      123
+									 :salt      (:salt options)
 									 :mail			(:mail options)
 									 :is_admin  false}))
 
 	user-protocol/user-db-protocol
 
-	(sign-in 
+	(sign-in
 		[this login password]
 		(first (jdbc/query db-map
 											["SELECT *
@@ -31,12 +32,13 @@
 	(get-user-by-login
 		[this login]
 		(first (jdbc/query db-map
-											["SELECT id, login, password, mail
+											["SELECT id, login, password, mail, is_admin, salt
 												FROM users
 												WHERE login=?" login]
-												:row-fn #(user-record/->user-record
-																	(:id %1)
-																	(:login %1)
-																	(:password %1)
-																	(:mail %1)
-																	(:is_admin %1))))))
+												; :row-fn #(user-record/->user-record
+												; 					(:id %1)
+												; 					(:login %1)
+												; 					(:password %1)
+												; 					(:mail %1)
+												; 					(:is_admin %1))
+																	))))

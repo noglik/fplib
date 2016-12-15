@@ -52,6 +52,7 @@
 	user-info))
 
 ;;user actions
+
 ;registration
 (defn add-user
 	[request]
@@ -61,7 +62,7 @@
 ;authorization
 (defn auth-user
 	[request]
-	(println request)
+	;(println request)
 	(let [current-user (.sign-in user-service
 							  	(get-in request [:params :login])
 							  	(get-in request [:params :password]))
